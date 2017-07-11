@@ -11,7 +11,7 @@ A solution set is:
 ]
 
 [题目]给定包含n个整数的数组S，请问S中是否有三个元素a,b,c使得a+b+c=0? 找出数组中相加等于0的三个数的所有不同组合。
-[解法]先排序，然后左右夹逼，复杂度TO(n^2)。这个方法可以推广到k-sum，先排序，然后做k-2次循环，在最内层循环左右夹逼，复杂度TO(max{n*log(n),n^(k-1)})
+[解法]先排序，然后左右夹逼，复杂度$TO(n^2)$。这个方法可以推广到k-sum，先排序，然后做k-2次循环，在最内层循环左右夹逼，复杂度$TO(max(n*log(n),n^{k-1}))$
 
 ``` C++
 class Solution {
@@ -45,14 +45,14 @@ public:
 };
 ```
 
-[错误及改正]
-1 语法错误：
+### 错误及改正
+- 语法错误
 ```
 //result.push_back(vector<int>(nums[i], nums[j], nums[k]));改为
   result.push_back(vector<int>{nums[i], nums[j], nums[k]});
 ```
-2 if (sum == 0) {...} 里面增加，++j; --k;
-3 去除重复元素，增加：
+- `if (sum == 0)` 里面增加，`++j; --k;`
+- 去除重复元素，增加：
 ```
 if (i > 0 && nums[i] == nums[i-1]) continue;
 while (nums[j] == nums[j-1] && j<k) ++j;
