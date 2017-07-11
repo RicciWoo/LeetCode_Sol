@@ -20,23 +20,23 @@ public:
         vector<vector<int>> result;
         if (nums.size() < 3) return result;
         sort(nums.begin(), nums.end());
-        for(size_t i = 0; i<nums.size()-2; ++i) {
+        for (size_t i = 0; i < nums.size()-2; ++i) {
             size_t j = i+1, k = nums.size()-1;
-			if (i > 0 && nums[i] == nums[i-1]) continue;
-            while (j<k) {
+            if (i > 0 && nums[i] == nums[i-1]) continue;
+            while (j < k) {
                 int sum = nums[i] + nums[j] + nums[k];
                 if (sum == 0) {
-                    result.push_back(vector<int>{nums[i], nums[j], nums[k]});
-					++j;
-					while (nums[j] == nums[j-1] && j<k) ++j;
-					--k;
-					while (nums[k] == nums[k+1] && j<k) --k;
+                    result.push_back({nums[i], nums[j], nums[k]});
+                    ++j;
+                    while (nums[j] == nums[j-1] && j < k) ++j;
+                    --k;
+                    while (nums[k] == nums[k+1] && j < k) --k;
                 } else if (sum < 0) {
                     ++j;
-					while (nums[j] == nums[j-1] && j<k) ++j;
+                    while (nums[j] == nums[j-1] && j < k) ++j;
                 } else {
                     --k;
-					while (nums[k] == nums[k+1] && j<k) --k;
+                    while (nums[k] == nums[k+1] && j < k) --k;
                 }
             }
         }
@@ -49,7 +49,7 @@ public:
 - 语法错误
 ```
 //result.push_back(vector<int>(nums[i], nums[j], nums[k]));改为
-  result.push_back(vector<int>{nums[i], nums[j], nums[k]});
+  result.push_back({nums[i], nums[j], nums[k]});
 ```
 - `if (sum == 0)` 里面增加，`++j; --k;`
 - 去除重复元素，增加：

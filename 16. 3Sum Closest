@@ -1,0 +1,42 @@
+# 16. 3Sum Closest
+[Array] [Two Pointers] [Medium]
+
+Given an array S of n integers, find three integers in S such that the sum is closest to a given number, target. Return the sum of the three integers. You may assume that each input would have exactly one solution.
+For example, given array S = {-1 2 1 -4}, and target = 1.
+The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+
+[题目]给定包含n个整数的数组S，找出S中和最接近目标值target的3个数。返回这3个数的和。
+[解法]先排序，然后左右夹逼，复杂度$TO(n^2)$
+
+``` C++
+class Solution {
+public:
+    int threeSumClosest(vector<int>& nums, int target) {
+        if (nums.size() == 0) return 0;
+        if (nums.size() <= 3) return accumulate(nums.begin(), nums.end(), 0);
+        sort(nums.begin(), nums.end());
+        int result = 0, minDiff = INT_MAX;
+        for (size_t i = 0; i < nums.size()-2; ++i) {
+            size_t j = i+1, k = nums.size()-1;
+            while (j < k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                int diff = abs(sum - target);
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    result = sum;
+                }
+                if (sum < target) ++j;
+                else              --k;
+            }
+        }
+        return result;
+    }
+};
+```
+
+### 错误与改正
+- 语法错误
+```
+//accumulate(nums.begin(), nums.end());//缺少初始值，改为
+  accumulate(nums.begin(), nums.end(), 0);
+```
