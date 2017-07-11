@@ -1,0 +1,60 @@
+# 15. 3Sum
+[Array] [Two Pointers] [Medium]
+
+Given an array S of n integers, are there elements a, b, c in S such that a+b+c=0? Find all unique triplets in the array which gives the sum of zero.
+Note: The solution set must not contain duplicate triplets.
+For example, given array S = [-1, 0, 1, 2, -1, -4],
+A solution set is:
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+
+[题目]给定包含n个整数的数组S，请问S中是否有三个元素a,b,c使得a+b+c=0? 找出数组中相加等于0的三个数的所有不同组合。
+[解法]先排序，然后左右夹逼，复杂度TO(n^2)。这个方法可以推广到k-sum，先排序，然后做k-2次循环，在最内层循环左右夹逼，复杂度TO(max{n*log(n),n^(k-1)})
+
+``` C++
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> result;
+        if (nums.size() < 3) return result;
+        sort(nums.begin(), nums.end());
+        for(size_t i = 0; i<nums.size()-2; ++i) {
+            size_t j = i+1, k = nums.size()-1;
+			if (i > 0 && nums[i] == nums[i-1]) continue;
+            while (j<k) {
+                int sum = nums[i] + nums[j] + nums[k];
+                if (sum == 0) {
+                    result.push_back(vector<int>{nums[i], nums[j], nums[k]});
+					++j;
+					while (nums[j] == nums[j-1] && j<k) ++j;
+					--k;
+					while (nums[k] == nums[k+1] && j<k) --k;
+                } else if (sum < 0) {
+                    ++j;
+					while (nums[j] == nums[j-1] && j<k) ++j;
+                } else {
+                    --k;
+					while (nums[k] == nums[k+1] && j<k) --k;
+                }
+            }
+        }
+        return result;
+    }
+};
+```
+
+[错误及改正]
+1 语法错误：
+```
+//result.push_back(vector<int>(nums[i], nums[j], nums[k]));改为
+  result.push_back(vector<int>{nums[i], nums[j], nums[k]});
+```
+2 if (sum == 0) {...} 里面增加，++j; --k;
+3 去除重复元素，增加：
+```
+if (i > 0 && nums[i] == nums[i-1]) continue;
+while (nums[j] == nums[j-1] && j<k) ++j;
+while (nums[k] == nums[k+1] && j<k) --k;
+```
