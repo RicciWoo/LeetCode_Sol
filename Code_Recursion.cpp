@@ -50,8 +50,9 @@ public:
 class Solution {
 public:
     vector<vector<int>> combinationSum(
-            vector<int>& candidates, int target) {
+            vector<int> &candidates, int target) {
         vector<vector<int>> results;
+        if (candidates.empty() || target <= 0) return results;
         vector<int> temp;
         _combination(candidates, target, 0, temp, results);
         return results;
@@ -75,43 +76,14 @@ private:
     }
 };
 
-// Knapsack II-1, Recursion, LeetCode 40. Combination Sum II
-class Solution {
-public:
-    vector<vector<int>> knapsack(vector<int> &candidates, int target) {
-        sort(candidates.begin(), candidates.end());
-        vector<vector<int>> results;
-        vector<int> temp;
-        _knapsack(candidates, target, 0, temp, results);
-        return results;
-    }
-
-private:
-    void _knapsack(vector<int> &candidates, int target, int index, 
-                   vector<int> &temp, vector<vector<int>> &results) {
-        if (target == 0) {
-            results.push_back(temp);
-            return;
-        }
-        if (target < 0 || index == candidates.size()) return;
-        temp.push_back(candidates[index]);
-        _knapsack(candidates, target - candidates[index], index + 1, 
-                  temp, results);
-        temp.pop_back();
-        while (index < candidates.size() - 1 && 
-               candidates[index + 1] == candidates[index]) index++;
-        _knapsack(candidates, target, index + 1, temp, results);
-    }
-};
-
-// Knapsack II-2, Recursion, LeetCode 40. Combination Sum II
-// !!! better method !!!
+// Knapsack II, Recursion, LeetCode 40. Combination Sum II
 class Solution {
 public:
     vector<vector<int>> combinationSum2(
             vector<int>& candidates, int target) {
-        sort(candidates.begin(), candidates.end());
         vector<vector<int>> results;
+        if (candidates.empty() || target <= 0) return results;
+        sort(candidates.begin(), candidates.end());
         vector<int> temp;
         _combination(candidates, target, 0, temp, results);
         return results;
