@@ -114,6 +114,7 @@ class Solution {
 public:
     vector<vector<int>> combinationSum3(int k, int n) {
         vector<vector<int>> results;
+        if (k <= 0 || n <= 0) return results;
         vector<int> temp;
         _combination(k, n, 1, temp, results);
         return results;
@@ -141,6 +142,7 @@ private:
 class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
+        if (nums.empty() || target <= 0) return 0;
         vector<int> comb(target + 1, 0);
         comb[0] = 1;
         for (int i = 1; i <= target; i++)
