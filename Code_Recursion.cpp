@@ -180,6 +180,36 @@ private:
     }
 };
 
+// LeetCode 254. Factor Combinations
+class Solution {
+public:
+    vector<vector<int>> getFactors(int n) {
+        vector<vector<int>> result;
+        if (n <= 1) return result;
+        vector<int> temp;
+        _getFactores(n, n, 2, temp, result);
+        return result;
+    }
+    
+private:
+    void _getFactores(int n, int r, int index, 
+                     vector<int> &temp, 
+                     vector<vector<int>> &result) {
+        if (r == 1) {
+            result.push_back(temp);
+            return;
+        }
+        if (r < index) return;
+        for (int i = index; i < n; i++) {
+            if (r % i == 0) {
+                temp.push_back(i);
+                _getFactores(n, r / i, i, temp, result);
+                temp.pop_back();
+            }
+        }
+    }
+};
+
 // 0-1 Knapsack, Recursion
 class Solution {
 public:
