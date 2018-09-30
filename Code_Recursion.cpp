@@ -143,12 +143,40 @@ class Solution {
 public:
     int combinationSum4(vector<int>& nums, int target) {
         if (nums.empty() || target <= 0) return 0;
-        vector<int> comb(target + 1, 0);
-        comb[0] = 1;
+        vector<int> opt(target + 1, 0);
+        opt[0] = 1;
         for (int i = 1; i <= target; i++)
             for (int j = 0; j < nums.size(); j++)
-                comb[i] += i - nums[j] < 0 ? 0 : comb[i - nums[j]];
-        return comb[target];
+                if (i - nums[j] >= 0)
+                    opt[i] += opt[i - nums[j]];
+        return opt[target];
+    }
+};
+
+// LeetCode 77. Combinations
+class Solution {
+public:
+    vector<vector<int>> combine(int n, int k) {
+        vector<vector<int>> result;
+        if (n <= 0 || k <= 0 || n < k) return result;
+        vector<int> temp;
+        _combine(n, k, 1, temp, result);
+        return result;
+    }
+    
+private:
+    void _combine(int n, int k, int index, 
+                  vector<int> &temp, 
+                  vector<vector<int>> &result) {
+        if (temp.size() == k) {
+            result.push_back(temp);
+            return;
+        }
+        for (int i = index; i <= n; i++) {
+            temp.push_back(i);
+            _combine(n, k, i + 1, temp, result);
+            temp.pop_back();
+        }
     }
 };
 
