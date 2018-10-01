@@ -248,8 +248,7 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int> &nums) {
         vector<vector<int>> result;
-        if (nums.empty()) return result;
-        if (nums.size() == 1) {
+        if (nums.size() <= 1) {
             result.push_back(nums);
             return result;
         }
@@ -283,8 +282,7 @@ class Solution {
 public:
     vector<vector<int>> permute(vector<int> &nums) {
         vector<vector<int>> result;
-        if (nums.empty()) return result;
-        if (nums.size() == 1) {
+        if (nums.size() <= 1) {
             result.push_back(nums);
             return result;
         }
@@ -310,21 +308,25 @@ private:
 // Permutation II, Recursion, LeetCode 47
 class Solution {
 public:
-    vector<vector<int>> permuteUnique(vector<int>& nums) {
-        vector<vector<int>> results;
+    vector<vector<int>> permuteUnique(vector<int> &nums) {
+        vector<vector<int>> result;
+        if (nums.size() <= 1) {
+            result.push_back(nums);
+            return result;
+        }
+        sort(nums.begin(), nums.end());
         vector<int> temp;
         vector<bool> used(nums.size(), false);
-        _permute(nums, used, temp, results);
-        return results;
+        _permute(nums, used, temp, result);
+        return result;
     }
-
+    
 private:
     void _permute(vector<int> &nums, vector<bool> &used, 
-                  vector<int> &temp, 
-                  vector<vector<int>> &results) {
-        sort(nums.begin(), nums.end());
+                  vector<int> &temp,
+                  vector<vector<int>> &result) {
         if (temp.size() == nums.size()) {
-            results.push_back(temp);
+            result.push_back(temp);
             return;
         }
         for (int i = 0; i < nums.size(); i++) {
@@ -333,9 +335,9 @@ private:
                 continue;
             used[i] = true;
             temp.push_back(nums[i]);
-            _permute(nums, used, temp, results);
-            temp.pop_back();
+            _permute(nums, used, temp, result);
             used[i] = false;
+            temp.pop_back();
         }
     }
 };
