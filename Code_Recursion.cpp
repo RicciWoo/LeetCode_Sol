@@ -243,103 +243,71 @@ private:
     }
 };
 
-// Permutations, Recursion and Swap, LeetCode 46
-class Solution {
-public:
-    vector<vector<int>> permute(vector<int> &nums) {
-        vector<vector<int>> results;
-        if (nums.empty()) return results;
-        if (nums.size() == 1) {
-            results.push_back(nums);
-            return results;
-        }
-        _permute(nums, 0, results);
-        return results;
-    }
-    
-private:
-    void _permute(vector<int> &nums, int index, 
-                  vector<vector<int>> &results) {
-        if (index == nums.size()) {
-            results.push_back(nums);
-            return;
-        }
-        for (int i = index; i < nums.size(); i++) {
-            swap(nums[index], nums[i]);
-            _permute(nums, index + 1, results);
-            swap(nums[index], nums[i]);
-        }
-    }
-};
-
 // Permutations, Recursion, LeetCode 46
 class Solution {
 public:
     vector<vector<int>> permute(vector<int> &nums) {
-        vector<vector<int>> results;
-        if (nums.empty()) return results;
+        vector<vector<int>> result;
+        if (nums.empty()) return result;
         if (nums.size() == 1) {
-            results.push_back(nums);
-            return results;
+            result.push_back(nums);
+            return result;
         }
         vector<int> temp;
         vector<bool> used(nums.size(), false);
-        _permute(nums, used, temp, results);
-        return results;
+        _permute(nums, used, temp, result);
+        return result;
     }
     
 private:
     void _permute(vector<int> &nums, vector<bool> &used, 
                   vector<int> &temp, 
-                  vector<vector<int>> &results) {
+                  vector<vector<int>> &result) {
         if (temp.size() == nums.size()) {
-            results.push_back(temp);
+            result.push_back(temp);
             return;
         }
         for (int i = 0; i < nums.size(); i++) {
             if (used[i]) continue;
             used[i] = true;
             temp.push_back(nums[i]);
-            _permute(nums, used, temp, results);
-            temp.pop_back();
+            _permute(nums, used, temp, result);
             used[i] = false;
+            temp.pop_back();
         }
     }
 };
 
-// Permutation II-1, Recursion, return as return and new array
-// LeetCode 47
+// Permutations, Recursion and Swap, LeetCode 46
 class Solution {
 public:
-    vector<vector<int>> permute(vector<int> num) {
-        sort(num.begin(), num.end());
-        vector<vector<int>> results;
-        vector<int> cur;
-        _permute(num, cur, results);
-        return results;
+    vector<vector<int>> permute(vector<int> &nums) {
+        vector<vector<int>> result;
+        if (nums.empty()) return result;
+        if (nums.size() == 1) {
+            result.push_back(nums);
+            return result;
+        }
+        _permute(nums, 0, result);
+        return result;
     }
-
+    
 private:
-    void _permute(vector<int> &num, vector<int> &cur, 
-                  vector<vector<int>> &results) {
-        if (num.size() == 0) {
-            results.push_back(cur);
+    void _permute(vector<int> &nums, int index, 
+                  vector<vector<int>> &result) {
+        if (index == nums.size()) {
+            result.push_back(nums);
             return;
         }
-        for (int i = 0; i < num.size(); i++) {
-            if (i > 0 && num[i] == num[i - 1])
-                continue;
-            vector<int> newCur(cur);
-            newCur.push_back(num[i]);
-            vector<int> newNum(num);
-            newNum.erase(newNum.begin() + i);
-            _permute(newNum, newCur, results);
+        for (int i = index; i < nums.size(); i++) {
+            swap(nums[index], nums[i]);
+            _permute(nums, index + 1, result);
+            swap(nums[index], nums[i]);
         }
     }
 };
 
-// Permutation II-2, Recursion, return as parameter and share array
-// LeetCode 47, !!! better method !!!
+// Permutation II, Recursion, LeetCode 47
 class Solution {
 public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
